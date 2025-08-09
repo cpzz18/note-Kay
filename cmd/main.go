@@ -2,14 +2,14 @@ package cmd
 
 import (
 	"github.com/gin-gonic/gin"
-	"honnef.co/go/tools/config"
 
-	"note-kay/routes"
+	"note-kay/config"
 )
 
 func main() {
 	r := gin.Default()
 	config.LoadEnv()
-	config.Connect
-	routes.Setup
+	config.ConnectDB()
+
+	r.Run(":8080")
 }

@@ -14,7 +14,6 @@ import (
 
 var DB *gorm.DB
 
-// Load environment variables
 func LoadEnv() {
 	err := godotenv.Load()
 	if err != nil {
@@ -22,19 +21,26 @@ func LoadEnv() {
 	}
 }
 
-// Connect to the database
 func ConnectDB() {
-	dsn := os.Getenv("DB_URL")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatal("Failed to connect to database: ", err)
-	}
+	host := os.Getenv("DB_HOST")
+    user := os.Getenv("DB_USER")
+    password := os.Getenv("DB_PASSWORD")
+    dbName := os.Getenv("DB_NAME")
+    port := os.Getenv("DB_PORT")
 
-	// Auto migrate
-	if err := db.AutoMigrate(&models.User{}, &models.Note{}, models.Folder{}, models.Tag{}, models.NoteTag{}); err != nil {
-		log.Fatal("Failed to migrate database: ", err)
-	}
+    dsn := fmt.Sprintf(
+        "host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+        host, user, password, dbName, port,
+    )
 
-	DB = db
-	fmt.Println("Database connected successfully")
+    db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+    if err != nil {
+        log.Fatal("Failed to connect to database: ", err)
+    }
+
+    db.AutoMigrate(&models.User{}, &models.Note{}, &models.Folder{}, &models.Tag{}, &models.NoteTag{},)
+
+    DB = db
+    fmt.Println("Database connected")
+
 }

@@ -1,9 +1,12 @@
 package models
 
-import "gorm.io/gorm"
+import "time"
 
 type Tag struct {
-	gorm.Model
-	Name  string `gorm:"uniqueIndex"`
-	Notes []Note `gorm:"many2many:note_tags;"`
+    ID        uint      `gorm:"primaryKey" json:"id"`
+    Name      string    `gorm:"size:50;not null;unique" json:"name"`
+    UserID    uint      `json:"user_id"`
+    CreatedAt time.Time `json:"created_at"`
+    UpdatedAt time.Time `json:"updated_at"`
+    Notes     []NoteTag `json:"-"`
 }

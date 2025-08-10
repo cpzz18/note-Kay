@@ -22,7 +22,6 @@ func JwtAuth() gin.HandlerFunc {
 		tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
 
 		token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-			// Pastikan metode signing sesuai HS256
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, jwt.ErrSignatureInvalid
 			}
@@ -41,7 +40,6 @@ func JwtAuth() gin.HandlerFunc {
 			}
 		}
 
-		// Lanjut ke handler berikutnya
 		c.Next()
 	}
 }

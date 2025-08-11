@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"net/http"
-	"note-kay/config"
-	"note-kay/models"
 
 	"github.com/gin-gonic/gin"
+
+	"note-kay/config"
+	"note-kay/models"
 )
 
 type TagInput struct {

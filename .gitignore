@@ -1,2 +1,6 @@
-# Ignore sensitive environment variables
+# File environment
 .env
+*.env
+
+# File modul Go
+go.sum
